@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSMK Trading Hub</title>
+  <meta name="description" content="SSMK Trading Hub - Business Directory">
+  <style>
+    :root{
+      --navy:#071d3a;
+      --blue:#1268d8;
+      --blue2:#0d4fa8;
+      --orange:#ff8a00;
+      --orange2:#ff6f00;
+      --bg:#f3f8fc;
+      --text:#10233f;
+      --muted:#607087;
+      --white:#fff;
+      --line:#dfe8f1;
+      --shadow:0 12px 30px rgba(10,35,65,.10);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+
+    /* NAVBAR */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      height:74px;
+      background:var(--navy);
+      color:white;
+      display:flex;
+      align-items:center;
+      padding:0 5.5%;
+      gap:28px;
+      box-shadow:0 4px 18px rgba(0,0,0,.12);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-right:auto;
+      min-width:230px;
+    }
+    .brand img{
+      width:105px;
+      max-height:52px;
+      object-fit:contain;
+    }
+    .brand-text{
+      font-size:20px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:30px;
+      font-size:15px;
+    }
+    .nav-links a{
+      opacity:.9;
+      padding:27px 0 24px;
+      border-bottom:3px solid transparent;
+    }
+    .nav-links a:hover,
+    .nav-links a.active{
+      border-bottom-color:var(--orange);
+      opacity:1;
+    }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .search{
+      width:265px;
+      height:44px;
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:25px;
+      display:flex;
+      align-items:center;
+      padding:0 16px;
+      gap:9px;
+    }
+    .search input{
+      width:100%;
+      background:transparent;
+      border:0;
+      outline:0;
+      color:white;
+      font-size:14px;
+    }
+    .search input::placeholder{color:#d7e1ee}
+    .lang-switch{
+      display:flex;
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:25px;
+      overflow:hidden;
+      height:42px;
+    }
+    .lang-switch button{
+      border:0;
+      background:transparent;
+      color:#dce6f4;
+      padding:0 13px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:13px;
+    }
+    .lang-switch button.active{
+      background:white;
+      color:var(--navy);
+    }
+    .contact-btn{
+      background:var(--orange);
+      color:white;
+      border:0;
+      border-radius:25px;
+      padding:13px 20px;
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .contact-btn:hover{background:var(--orange2)}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      min-height:520px;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      background:#123;
+    }
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(4,24,50,.78) 0%,rgba(4,24,50,.48) 42%,rgba(4,24,50,.05) 76%);
+    }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      width:90%;
+      max-width:1250px;
+      margin:auto;
+      color:white;
+      padding:70px 0;
+    }
+    .eyebrow{
+      letter-spacing:5px;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:8px;
+      color:#eaf3ff;
+    }
+    .hero h1{
+      font-size:clamp(48px,7vw,82px);
+      line-height:.95;
+      letter-spacing:-3px;
+      max-width:650px;
+    }
+    .hero h1 span{color:#1680ff}
+    .hero p{
+      max-width:520px;
+      margin:22px 0 28px;
+      font-size:17px;
+      color:#edf4fc;
+    }
+    .primary-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:var(--orange);
+      color:white;
+      border-radius:28px;
+      padding:15px 24px;
+      font-weight:800;
+      border:0;
+    }
+    .primary-btn:hover{background:var(--orange2)}
+
+    /* CONTENT */
+    .section{
+      width:90%;
+      max-width:1290px;
+      margin:0 auto;
+      padding:65px 0;
+    }
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      gap:35px;
+      align-items:end;
+      margin-bottom:28px;
+    }
+    .section-label{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-size:12px;
+      font-weight:800;
+      color:#274466;
+      margin-bottom:8px;
+    }
+    .section-label:before{
+      content:"";
+      width:35px;
+      height:4px;
+      background:var(--orange);
+    }
+    .section h2{
+      font-size:clamp(30px,4vw,42px);
+      line-height:1.1;
+      letter-spacing:-1px;
+    }
+    .section-intro{
+      max-width:400px;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .view-all{
+      color:var(--blue);
+      font-weight:800;
+      background:#e7f1fd;
+      padding:13px 19px;
+      border-radius:25px;
+      white-space:nowrap;
+    }
+
+    /* CARDS */
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+    .card{
+      background:white;
+      border:1px solid #e3eaf1;
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+      transition:.25s ease;
+    }
+    .card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 18px 38px rgba(10,35,65,.15);
+    }
+    .card-img{
+      height:185px;
+      width:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .card-body{
+      padding:15px 18px 0;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+    }
+    .tag{
+      display:inline-block;
+      align-self:flex-start;
+      color:white;
+      background:var(--blue);
+      padding:6px 11px;
+      border-radius:15px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.3px;
+      margin-bottom:10px;
+    }
+    .tag.orange{background:var(--orange)}
+    .card h3{
+      font-size:20px;
+      line-height:1.15;
+      margin-bottom:8px;
+    }
+    .card p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.45;
+      margin-bottom:12px;
+    }
+    .meta{
+      color:#596b80;
+      font-size:13px;
+      margin-bottom:7px;
+    }
+    .meta b{color:#172b46}
+    .location{
+      font-size:13px;
+      color:#596b80;
+      padding-bottom:15px;
+    }
+    .card-footer{
+      border-top:1px solid var(--line);
+      padding:13px 18px;
+      display:flex;
+      justify-content:space-between;
+      color:var(--blue);
+      font-size:14px;
+      font-weight:800;
+      margin-top:auto;
+    }
+
+    /* INFO */
+    .info{
+      background:var(--navy);
+      color:white;
+    }
+    .info-inner{
+      width:90%;
+      max-width:1290px;
+      margin:auto;
+      padding:55px 0;
+      display:grid;
+      grid-template-columns:1.5fr 1fr 1fr;
+      gap:40px;
+    }
+    .info h3{margin-bottom:12px;font-size:21px}
+    .info p,.info li{color:#cbd8e7;font-size:14px}
+    .info ul{list-style:none;display:grid;gap:8px}
+    .footer{
+      background:#04152b;
+      color:#91a5bd;
+      text-align:center;
+      padding:18px;
+      font-size:12px;
+    }
+
+    /* MOBILE */
+    @media(max-width:1050px){
+      .nav-links{display:none}
+      .search{width:190px}
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .info-inner{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:700px){
+      .navbar{
+        height:auto;
+        min-height:70px;
+        padding:10px 5%;
+        flex-wrap:wrap;
+        gap:10px;
+      }
+      .brand{min-width:0}
+      .brand img{width:80px}
+      .brand-text{font-size:15px}
+      .nav-actions{width:100%;justify-content:space-between}
+      .search{flex:1;width:auto}
+      .contact-btn{display:none}
+      .hero{min-height:560px}
+      .hero-overlay{
+        background:linear-gradient(90deg,rgba(4,24,50,.82),rgba(4,24,50,.35));
+      }
+      .hero-content{padding:55px 0}
+      .hero h1{font-size:52px}
+      .hero p{font-size:15px}
+      .section{padding:45px 0}
+      .section-head{display:block}
+      .section-intro{margin-top:14px}
+      .view-all{display:inline-block;margin-top:16px}
+      .cards{grid-template-columns:1fr}
+      .card-img{height:220px}
+      .info-inner{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <a href="#" class="brand">
+    <!-- Ganti logo.png dengan nama file logo SSMK yang kamu upload -->
+    <img src="logo.png" alt="SSMK Logo">
+    <div class="brand-text">SSMK TRADING HUB</div>
+  </a>
+
+  <nav class="nav-links">
+    <a href="#home" class="active" data-id="nav-home">Home</a>
+    <a href="#business" data-id="nav-business">Business Directory</a>
+    <a href="#about" data-id="nav-about">About</a>
+    <a href="#contact" data-id="nav-contact">Contact</a>
+  </nav>
+
+  <div class="nav-actions">
+    <div class="search">
+      <span>⌕</span>
+      <input id="searchInput" type="search" placeholder="Search business...">
+    </div>
+
+    <div class="lang-switch">
+      <button id="idBtn" class="active" onclick="setLanguage('id')">ID</button>
+      <button id="enBtn" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <a href="#contact" class="contact-btn" data-id="contact-btn">Get in Touch →</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+  <img class="hero-bg" src="hero.jpg" alt="Plaza Simatupang">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow" data-id="hero-eyebrow">WELCOME TO</div>
+    <h1>SSMK<br><span>TRADING HUB</span></h1>
+
+    <p id="hero-desc">
+      Menyediakan informasi dan referensi berbagai aktivitas usaha
+      untuk mendukung pertumbuhan bisnis di Indonesia.
+    </p>
+
+    <a href="#business" class="primary-btn" id="hero-btn">
+      Jelajahi Kategori →
+    </a>
+  </div>
+</section>
+
+<section class="section" id="business">
+  <div class="section-head">
+    <div>
+      <div class="section-label" data-id="section-label">KATEGORI USAHA</div>
+      <h2 id="section-title">Temukan Peluang Bisnis Anda</h2>
+    </div>
+    <div>
+      <p class="section-intro" id="section-intro">
+        Berbagai kategori aktivitas usaha yang relevan dengan kebutuhan pasar saat ini.
+      </p>
+      <a href="#business" class="view-all" id="view-all">Lihat Semua →</a>
+    </div>
+  </div>
+
+  <div class="cards">
+
+    <!-- CARD 1 -->
+    <article class="card">
+      <img class="card-img" src="fashion-retail.jpg" alt="Fashion Retail">
+      <div class="card-body">
+        <span class="tag" data-id="card1-tag">FASHION RETAIL</span>
+        <h3 id="card1-title">Fashion & Apparel Retail</h3>
+        <p id="card1-desc">
+          Perdagangan eceran pakaian, alas kaki, dan perlengkapan pakaian bekas.
+        </p>
+        <div class="meta">KBLI <b>47742</b> · 2025</div>
+        <div class="location">📍 Plaza Simatupang, Jakarta Selatan</div>
+      </div>
+      <a href="#" class="card-footer">
+        <span data-id="view-activity">View activity</span><span>→</span>
+      </a>
+    </article>
+
+    <!-- CARD 2 -->
+    <article class="card">
+      <img class="card-img" src="restaurant.jpg" alt="Food and Restaurant">
+      <div class="card-body">
+        <span class="tag orange" data-id="card2-tag">FOOD & RESTAURANT</span>
+        <h3 id="card2-title">Food & Restaurant</h3>
+        <p id="card2-desc">
+          Aktivitas penyediaan makanan dan minuman untuk konsumsi langsung.
+        </p>
+        <div class="meta">KBLI <b>56101</b> · 2025</div>
+        <div class="location">📍 Plaza Simatupang, Jakarta Selatan</div>
+      </div>
+      <a href="#" class="card-footer">
+        <span data-id="view-activity">View activity</span><span>→</span>
+      </a>
+    </article>
+
+    <!-- CARD 3 -->
+    <article class="card">
+      <img class="card-img" src="minimarket.jpg" alt="Minimarket">
+      <div class="card-body">
+        <span class="tag" data-id="card3-tag">RETAIL</span>
+        <h3 id="card3-title">Minimarket</h3>
+        <p id="card3-desc">
+          Perdagangan eceran berbagai macam barang yang utamanya makanan, minuman, atau tembakau.
+        </p>
+        <div class="meta">KBLI <b>47111</b> · 2025</div>
+        <div class="location">📍 Plaza Simatupang, Jakarta Selatan</div>
+      </div>
+      <a href="#" class="card-footer">
+        <span data-id="view-activity">View activity</span><span>→</span>
+      </a>
+    </article>
+
+    <!-- CARD 4 -->
+    <article class="card">
+      <img class="card-img" src="garment-factory.jpg" alt="Garment Manufacturing">
+      <div class="card-body">
+        <span class="tag orange" data-id="card4-tag">MANUFACTURING</span>
+        <h3 id="card4-title">Garment Manufacturing</h3>
+        <p id="card4-desc">
+          Aktivitas industri pakaian jadi dan proses produksi tekstil.
+        </p>
+        <div class="meta">KBLI <b>14111</b> · 2025</div>
+        <div class="location">📍 Jakarta Selatan</div>
+      </div>
+      <a href="#" class="card-footer">
+        <span data-id="view-activity">View activity</span><span>→</span>
+      </a>
+    </article>
+
+  </div>
+</section>
+
+<section class="info" id="about">
+  <div class="info-inner">
+    <div>
+      <h3>SSMK Trading Hub</h3>
+      <p id="about-text">
+        Platform informasi dan direktori aktivitas usaha yang membantu pengguna
+        menemukan referensi bisnis berdasarkan kategori dan lokasi.
+      </p>
+    </div>
+
+    <div>
+      <h3 id="quick-title">Quick Links</h3>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#business">Business Directory</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div id="contact">
+      <h3 id="contact-title">Contact</h3>
+      <p>SSMK Trading Hub</p>
+      <p>Jakarta Selatan, Indonesia</p>
+      <p style="margin-top:8px">info@ssmktradinghub.com</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  © 2025 SSMK Trading Hub. All rights reserved.
+</footer>
+
+<script>
+  const translations = {
+    id: {
+      navHome: "Home",
+      navBusiness: "Business Directory",
+      navAbout: "About",
+      navContact: "Contact",
+      contactBtn: "Hubungi Kami →",
+      heroEyebrow: "SELAMAT DATANG DI",
+      heroDesc: "Menyediakan informasi dan referensi berbagai aktivitas usaha untuk mendukung pertumbuhan bisnis di Indonesia.",
+      heroBtn: "Jelajahi Kategori →",
+      sectionLabel: "KATEGORI USAHA",
+      sectionTitle: "Temukan Peluang Bisnis Anda",
+      sectionIntro: "Berbagai kategori aktivitas usaha yang relevan dengan kebutuhan pasar saat ini.",
+      viewAll: "Lihat Semua →",
+      card1Tag: "FASHION RETAIL",
+      card1Title: "Fashion & Apparel Retail",
+      card1Desc: "Perdagangan eceran pakaian, alas kaki, dan perlengkapan pakaian bekas.",
+      card2Tag: "FOOD & RESTAURANT",
+      card2Title: "Food & Restaurant",
+      card2Desc: "Aktivitas penyediaan makanan dan minuman untuk konsumsi langsung.",
+      card3Tag: "RETAIL",
+      card3Title: "Minimarket",
+      card3Desc: "Perdagangan eceran berbagai macam barang yang utamanya makanan, minuman, atau tembakau.",
+      card4Tag: "MANUFACTURING",
+      card4Title: "Garment Manufacturing",
+      card4Desc: "Aktivitas industri pakaian jadi dan proses produksi tekstil.",
+      viewActivity: "Lihat aktivitas",
+      aboutText: "Platform informasi dan direktori aktivitas usaha yang membantu pengguna menemukan referensi bisnis berdasarkan kategori dan lokasi.",
+      quickTitle: "Tautan Cepat",
+      contactTitle: "Kontak",
+      search: "Cari bisnis..."
+    },
+    en: {
+      navHome: "Home",
+      navBusiness: "Business Directory",
+      navAbout: "About",
+      navContact: "Contact",
+      contactBtn: "Get in Touch →",
+      heroEyebrow: "WELCOME TO",
+      heroDesc: "Providing information and references on various business activities to support business growth in Indonesia.",
+      heroBtn: "Explore Categories →",
+      sectionLabel: "BUSINESS CATEGORIES",
+      sectionTitle: "Discover Your Business Opportunities",
+      sectionIntro: "Explore business activity categories relevant to today's market needs.",
+      viewAll: "View All →",
+      card1Tag: "FASHION RETAIL",
+      card1Title: "Fashion & Apparel Retail",
+      card1Desc: "Retail trade of clothing, footwear, and second-hand apparel accessories.",
+      card2Tag: "FOOD & RESTAURANT",
+      card2Title: "Food & Restaurant",
+      card2Desc: "Activities providing food and beverages for direct consumption.",
+      card3Tag: "RETAIL",
+      card3Title: "Minimarket",
+      card3Desc: "Retail trade of various goods, mainly food, beverages, or tobacco.",
+      card4Tag: "MANUFACTURING",
+      card4Title: "Garment Manufacturing",
+      card4Desc: "Manufacturing activities for finished garments and textile production.",
+      viewActivity: "View activity",
+      aboutText: "An information platform and business activity directory that helps users find business references by category and location.",
+      quickTitle: "Quick Links",
+      contactTitle: "Contact",
+      search: "Search business..."
+    }
+  };
+
+  function setText(id, text){
+    const el = document.getElementById(id);
+    if(el) el.textContent = text;
+  }
+
+  function setLanguage(lang){
+    const t = translations[lang];
+
+    setText("nav-home", t.navHome);
+    setText("nav-business", t.navBusiness);
+    setText("nav-about", t.navAbout);
+    setText("nav-contact", t.navContact);
+    setText("contact-btn", t.contactBtn);
+    setText("hero-eyebrow", t.heroEyebrow);
+    setText("hero-desc", t.heroDesc);
+    setText("hero-btn", t.heroBtn);
+    setText("section-label", t.sectionLabel);
+    setText("section-title", t.sectionTitle);
+    setText("section-intro", t.sectionIntro);
+    setText("view-all", t.viewAll);
+
+    setText("card1-tag", t.card1Tag);
+    setText("card1-title", t.card1Title);
+    setText("card1-desc", t.card1Desc);
+    setText("card2-tag", t.card2Tag);
+    setText("card2-title", t.card2Title);
+    setText("card2-desc", t.card2Desc);
+    setText("card3-tag", t.card3Tag);
+    setText("card3-title", t.card3Title);
+    setText("card3-desc", t.card3Desc);
+    setText("card4-tag", t.card4Tag);
+    setText("card4-title", t.card4Title);
+    setText("card4-desc", t.card4Desc);
+
+    document.querySelectorAll('[data-id="view-activity"]').forEach(el => {
+      el.textContent = t.viewActivity;
+    });
+
+    setText("about-text", t.aboutText);
+    setText("quick-title", t.quickTitle);
+    setText("contact-title", t.contactTitle);
+
+    document.getElementById("searchInput").placeholder = t.search;
+
+    document.getElementById("idBtn").classList.toggle("active", lang === "id");
+    document.getElementById("enBtn").classList.toggle("active", lang === "en");
+
+    document.documentElement.lang = lang;
+    localStorage.setItem("ssmk-language", lang);
+  }
+
+  const savedLanguage = localStorage.getItem("ssmk-language") || "id";
+  setLanguage(savedLanguage);
+</script>
+
+</body>
+</html>
